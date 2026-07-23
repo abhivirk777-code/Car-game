@@ -10,16 +10,16 @@ let obstacleY = -100;
 let obstacleX = 125;
 let points = 0;
 
-// Left button
-leftBtn.addEventListener("click", () => {
+// Move car left
+leftBtn.addEventListener("click", function () {
     if (carX > 0) {
         carX -= 50;
         car.style.left = carX + "px";
     }
 });
 
-// Right button
-rightBtn.addEventListener("click", () => {
+// Move car right
+rightBtn.addEventListener("click", function () {
     if (carX < 250) {
         carX += 50;
         car.style.left = carX + "px";
@@ -29,17 +29,18 @@ rightBtn.addEventListener("click", () => {
 function gameLoop() {
 
     obstacleY += 5;
+
     obstacle.style.top = obstacleY + "px";
     obstacle.style.left = obstacleX + "px";
 
-    // Collision
+    // Check collision
     if (obstacleY > 390 && obstacleY < 470 && obstacleX === carX) {
         alert("Game Over!\nScore: " + points);
         location.reload();
         return;
     }
 
-    // Obstacle passed
+    // Obstacle reaches bottom
     if (obstacleY > 500) {
         obstacleY = -100;
         obstacleX = Math.floor(Math.random() * 6) * 50;
@@ -50,4 +51,5 @@ function gameLoop() {
     requestAnimationFrame(gameLoop);
 }
 
-game
+// Start game
+gameLoop();
