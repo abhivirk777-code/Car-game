@@ -1,55 +1,58 @@
 const car = document.getElementById("car");
 const obstacle = document.getElementById("obstacle");
-const score = document.getElementById("score");
+const scoreText = document.getElementById("score");
 
 const leftBtn = document.getElementById("left");
 const rightBtn = document.getElementById("right");
 
-let carX = 125;
-let obstacleY = -100;
-let obstacleX = 125;
-let points = 0;
+let carLeft = 125;
+let obstacleTop = -100;
+let obstacleLeft = 125;
+let score = 0;
 
-// Move car left
+// Move left
 leftBtn.addEventListener("click", function () {
-    if (carX > 0) {
-        carX -= 50;
-        car.style.left = carX + "px";
+    if (carLeft > 0) {
+        carLeft -= 50;
+        car.style.left = carLeft + "px";
     }
 });
 
-// Move car right
+// Move right
 rightBtn.addEventListener("click", function () {
-    if (carX < 250) {
-        carX += 50;
-        car.style.left = carX + "px";
+    if (carLeft < 250) {
+        carLeft += 50;
+        car.style.left = carLeft + "px";
     }
 });
 
-function gameLoop() {
+function updateGame() {
+    obstacleTop += 5;
 
-    obstacleY += 5;
+    obstacle.style.top = obstacleTop + "px";
+    obstacle.style.left = obstacleLeft + "px";
 
-    obstacle.style.top = obstacleY + "px";
-    obstacle.style.left = obstacleX + "px";
-
-    // Check collision
-    if (obstacleY > 390 && obstacleY < 470 && obstacleX === carX) {
-        alert("Game Over!\nScore: " + points);
+    // Collision
+    if (
+        obstacleTop > 390 &&
+        obstacleTop < 470 &&
+        obstacleLeft === carLeft
+    ) {
+        alert("Game Over! Score: " + score);
         location.reload();
         return;
     }
 
     // Obstacle reaches bottom
-    if (obstacleY > 500) {
-        obstacleY = -100;
-        obstacleX = Math.floor(Math.random() * 6) * 50;
-        points++;
-        score.innerHTML = points;
+    if (obstacleTop > 500) {
+        obstacleTop = -100;
+        obstacleLeft = Math.floor(Math.random() * 6) * 50;
+        score++;
+        scoreText.textContent = score;
     }
 
-    requestAnimationFrame(gameLoop);
+    requestAnimationFrame(updateGame);
 }
 
-// Start game
-gameLoop();
+// Start the game
+updateGame();
